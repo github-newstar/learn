@@ -12,38 +12,30 @@ using namespace std;
 
 class Solution {
     public:
-        bool isValid(string s){
-            if(s.size() == 0 || s.size() == 1)
-                return true;
+        string removeDuplicates(string s){
+            if(s.size() == 0){
+                return s;
+            }
             stack<char> sta;
-            for(int i = 0; i < s.size(); i++){
-                if(s[i] == '[' || s[i] == '{' || s[i] == '('){
-                    if(s[i] == '['){
-                        sta.push(']');
-                    }
-                    if(s[i] == '{'){
-                        sta.push('}');
-                    }
-                    if(s[i] == '('){
-                        sta.push(')');
-                    }
+            for(char ch : s){
+                if(sta.empty()){
+                    sta.push(ch);
                 }
-                else if(s[i] == ']' || s[i] == ']' || s[i] == ']'){
-                    if(sta.size() == 0){
-                        return false;
+                else{
+                    if(sta.top() == ch){
+                        sta.pop();
+                        continue;;
                     }
-                    if(sta.top() != s[i]){
-                        return false;
-                    }
-                    sta.pop();
+                    sta.push(ch);
                 }
             }
-            if(!sta.empty()){
-                return false;
+            string ans;
+            while(!sta.empty()){
+                ans.push_back(sta.top());
+                sta.pop();
             }
-            else{
-                return true;
-            }
-
+            reverse(ans.begin(), ans.end());
+            return ans;
+            
         }
 };
